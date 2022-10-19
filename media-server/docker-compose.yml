@@ -1,0 +1,171 @@
+version: "3.4"
+
+networks:
+  media-macvlan0:
+    driver: macvlan
+    driver_opts:
+      parent: ${MEDIA_INTERFACE}
+    ipam:
+      config:
+        - subnet: ${MEDIA_SUBNET}
+          gateway: ${MEDIA_GATEWAY}
+
+services:
+  deluge:
+    container_name: deluge
+    image: lscr.io/linuxserver/deluge:latest
+    restart: unless-stopped
+    ports:
+      - "80:8112/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${DELUGE_IP}
+    environment:
+      - PUID=${PUID}  # default user id, defined in .env
+      - PGID=${PGID}  # default group id, defined in .env
+      - TZ=${TZ}      # timezone, defined in .env
+    volumes:
+      - ${ROOT}/downloads:/downloads  # downloads folder
+      - ${ROOT}/config/deluge:/config # config files
+
+  prowlarr:
+    container_name: prowlarr
+    image: lscr.io/linuxserver/prowlarr:develop
+    restart: unless-stopped
+    ports:
+      - "80:9696/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${PROWLARR_IP}
+    environment:
+      - PUID=${PUID}  # default user id, defined in .env
+      - PGID=${PGID}  # default group id, defined in .env
+      - TZ=${TZ}      # timezone, defined in .env
+    volumes:
+      - ${ROOT}/config/prowlarr:/config
+
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    restart: unless-stopped
+    ports:
+      - "80:8989/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${SONARR_IP}
+    environment:
+      - PUID=${PUID}  # default user id, defined in .env
+      - PGID=${PGID}  # default group id, defined in .env
+      - TZ=${TZ}      # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/sonarr:/config # config files
+      - ${ROOT}/media/tv:/tv          # tv shows folder
+      - ${ROOT}/downloads:/downloads  # download folder
+
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:latest
+    restart: unless-stopped
+    ports:
+      - "80:7878/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${RADARR_IP}
+    environment:
+      - PUID=${PUID}  # default user id, defined in .env
+      - PGID=${PGID}  # default group id, defined in .env
+      - TZ=${TZ}      # timezone, defined in .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${ROOT}/config/radarr:/config   # config files
+      - ${ROOT}/media/movies:/movies    # movies folder
+      - ${ROOT}/downloads:/downloads    # download folder
+
+  bazarr:
+    container_name: bazarr
+    image: lscr.io/linuxserver/bazarr:latest
+    restart: unless-stopped
+    ports:
+      - "80:6767/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${BAZARR_IP}
+    environment:
+      - PUID=${PUID}  # default user id, defined in .env
+      - PGID=${PGID}  # default group id, defined in .env
+      - TZ=${TZ}      # timezone, defined in .env
+      - UMASK_SET=022 # optional
+    volumes:
+      - ${ROOT}/config/bazarr:/config   # config files
+      - ${ROOT}/media/movies:/movies    # movies folder
+      - ${ROOT}/media/tv:/tv            # tv shows folder
+  
+  readarr:
+    container_name: readarr
+    image: lscr.io/linuxserver/readarr:develop
+    restart: unless-stopped
+    ports:
+      - "80:8787/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${READARR_IP}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${ROOT}/config/readarr:/config  # config files
+      - ${ROOT}/media/books:/books      # books folder
+      - ${ROOT}/downloads:/downloads
+
+  jellyfin:
+    container_name: jellyfin
+    image: jellyfin/jellyfin:latest
+    restart: unless-stopped
+    ports:
+      - "80:8096/tcp"
+      - "8920:8920"
+      - "7359:7359/udp"
+      - "1900:1900/udp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${JELLYFIN_IP}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK=002
+    volumes:
+      - ${ROOT}/config/jellyfin/config:/config    # jellyfin config
+      - ${ROOT}/media:/data/media                 # media library
+  
+  organizr:
+    container_name: organizr
+    image: organizr/organizr
+    restart: unless-stopped
+    ports:
+      - "80:80/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${ORGANIZR_IP}
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ${ROOT}/config/organizr/config:/config    # organizr config
+
+  jellyseerr:
+    container_name: jellyseerr
+    image: fallenbagel/jellyseerr:latest
+    restart: unless-stopped
+    ports:
+      - "80:5055/tcp"
+    networks:
+      media-macvlan0:
+        ipv4_address: ${JELLYSEER_IP}
+    environment:
+      - TZ=${TZ}
+      - LOG_LEVEL=${LOG_LEVEL}
+    volumes:
+      - ${ROOT}/config/jellyseerr:/app/config
