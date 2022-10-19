@@ -10,7 +10,7 @@ services:
     image: lscr.io/linuxserver/deluge:latest
     restart: unless-stopped
     ports:
-      - "80:8112/tcp"
+      - "8112:8112/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${DELUGE_IP}
@@ -27,7 +27,7 @@ services:
     image: lscr.io/linuxserver/prowlarr:develop
     restart: unless-stopped
     ports:
-      - "80:9696/tcp"
+      - "9696:9696/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${PROWLARR_IP}
@@ -43,7 +43,7 @@ services:
     image: lscr.io/linuxserver/sonarr:latest
     restart: unless-stopped
     ports:
-      - "80:8989/tcp"
+      - "8989:8989/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${SONARR_IP}
@@ -62,7 +62,7 @@ services:
     image: lscr.io/linuxserver/radarr:latest
     restart: unless-stopped
     ports:
-      - "80:7878/tcp"
+      - "7878:7878/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${RADARR_IP}
@@ -81,7 +81,7 @@ services:
     image: lscr.io/linuxserver/bazarr:latest
     restart: unless-stopped
     ports:
-      - "80:6767/tcp"
+      - "6767:6767/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${BAZARR_IP}
@@ -100,7 +100,7 @@ services:
     image: lscr.io/linuxserver/readarr:develop
     restart: unless-stopped
     ports:
-      - "80:8787/tcp"
+      - "8787:8787/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${READARR_IP}
@@ -118,7 +118,7 @@ services:
     image: jellyfin/jellyfin:latest
     restart: unless-stopped
     ports:
-      - "80:8096/tcp"
+      - "8096:8096/tcp"
       - "8920:8920"
       - "7359:7359/udp"
       - "1900:1900/udp"
@@ -154,7 +154,7 @@ services:
     image: fallenbagel/jellyseerr:latest
     restart: unless-stopped
     ports:
-      - "80:5055/tcp"
+      - "5055:5055/tcp"
     networks:
       docker-macvlan0:
         ipv4_address: ${JELLYSEER_IP}
