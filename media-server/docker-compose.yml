@@ -1,14 +1,8 @@
 version: "3.4"
 
 networks:
-  media-macvlan0:
-    driver: macvlan
-    driver_opts:
-      parent: ${MEDIA_INTERFACE}
-    ipam:
-      config:
-        - subnet: ${MEDIA_SUBNET}
-          gateway: ${MEDIA_GATEWAY}
+  docker-macvlan:
+    external: true
 
 services:
   deluge:

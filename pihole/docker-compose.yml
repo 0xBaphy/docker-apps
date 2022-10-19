@@ -1,14 +1,9 @@
 version: "3"
 
 networks:
-  pihole-macvlan0:
-    driver: macvlan
-    driver_opts:
-      parent: ${PI_HOLE_INTERFACE}
-    ipam:
-      config:
-        - subnet: ${PI_HOLE_SUBNET}
-          gateway: ${PI_HOLE_GATEWAY}
+  docker-macvlan:
+    external: true
+
 services:
   pihole:
     container_name: pihole
