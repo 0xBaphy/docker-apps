@@ -22,7 +22,7 @@ services:
     environment:
       TZ: ${TZ}
     volumes:
-      - './etc-pihole:/etc/pihole'
-      - './etc-dnsmasq.d:/etc/dnsmasq.d'
+      - ${ROOT}/config/etc-pihole:/etc/pihole
+      - ${ROOT}/config/etc-dnsmasq.d:/etc/dnsmasq.d
     cap_add:
       - NET_ADMIN
