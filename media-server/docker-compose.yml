@@ -1,7 +1,7 @@
 version: "3.4"
 
 networks:
-  docker-macvlan:
+  docker-macvlan0:
     external: true
 
 services:
@@ -12,7 +12,7 @@ services:
     ports:
       - "80:8112/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${DELUGE_IP}
     environment:
       - PUID=${PUID}  # default user id, defined in .env
@@ -29,7 +29,7 @@ services:
     ports:
       - "80:9696/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${PROWLARR_IP}
     environment:
       - PUID=${PUID}  # default user id, defined in .env
@@ -45,7 +45,7 @@ services:
     ports:
       - "80:8989/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${SONARR_IP}
     environment:
       - PUID=${PUID}  # default user id, defined in .env
@@ -64,7 +64,7 @@ services:
     ports:
       - "80:7878/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${RADARR_IP}
     environment:
       - PUID=${PUID}  # default user id, defined in .env
@@ -83,7 +83,7 @@ services:
     ports:
       - "80:6767/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${BAZARR_IP}
     environment:
       - PUID=${PUID}  # default user id, defined in .env
@@ -102,7 +102,7 @@ services:
     ports:
       - "80:8787/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${READARR_IP}
     environment:
       - PUID=${PUID}
@@ -123,7 +123,7 @@ services:
       - "7359:7359/udp"
       - "1900:1900/udp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${JELLYFIN_IP}
     environment:
       - PUID=${PUID}
@@ -141,7 +141,7 @@ services:
     ports:
       - "80:80/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${ORGANIZR_IP}
     environment:
       - PUID=${PUID}
@@ -156,7 +156,7 @@ services:
     ports:
       - "80:5055/tcp"
     networks:
-      media-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${JELLYSEER_IP}
     environment:
       - TZ=${TZ}

@@ -1,7 +1,7 @@
 version: "3"
 
 networks:
-  docker-macvlan:
+  docker-macvlan0:
     external: true
 
 services:
@@ -17,7 +17,7 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
     networks:
-      pihole-macvlan0:
+      docker-macvlan0:
         ipv4_address: ${PI_HOLE_IP}
     environment:
       TZ: ${TZ}
