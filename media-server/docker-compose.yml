@@ -5,18 +5,6 @@ networks:
     external: true
 
 services:
-  nginx:
-    container_name: nginx
-    image: nginx
-    restart: unless-stopped
-    ports:
-      - '80:80/tcp'
-    networks:
-      docker-macvlan0:
-        ipv4_address: ${NGINX_IP}
-    volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock'
-
   deluge:
     container_name: deluge
     image: lscr.io/linuxserver/deluge:latest
