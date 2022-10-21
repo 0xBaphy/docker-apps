@@ -1,34 +1,53 @@
 # Docker Apps
 
-## MACVLAN
+1. Clone this repo
 
-First create a MACVLAN
+```sh
+git clone https://github.com/0xBaphy/docker-apps
+cd docker-apps
+```
+
+2. MACVLAN
+
+Creating a MACVLAN allows us to give each container an individual ip, making management much easier.
+You may need to change the `subnet`, `gateway` and `parent` if your network setup differs from mine.
 
 ```sh
 docker network create -d macvlan \
     --subnet=192.168.1.0/24 \
     --gateway=192.168.1.1 \
-    -o parent=eth0 docker-macvlan0
+    -o parent=eth0 \
+    docker-macvlan0
 ```
 
-## Nginx
+3. Nginx
 
+We use nginx as a reverse proxy, you can find the config files in the `sites-available` directory, you may need to edit them to suit your network setup.
 
+Set up nginx using the provided container.
 
-## Pi Hole
+```sh
+cd nginx
+cp env.example .env # Don't forget to change the values according to your network setup 
+sudo docker-compose up -d
+```
 
-> MAKE SURE TO SET UP THE MACVLAN FIRST
-> MAKE SURE TO SET UP NGINX
+4. PiHole
 
-Sets up pihole using a MACVLAN network, allowing to use pihole's DHCP feature.
+Sets up pihole using the MACVLAN network, allowing to use pihole's DHCP feature.
 
-Copy `env.example` to `.env` and change the values according to your set up, then run `sudo docker-compose up`.
+```sh
+cd pihole
+cp env.example .env # Don't forget to change the values according to your network setup
+sudo docker-compose up -d
+```
 
-## Media Server
-
-> MAKE SURE TO SET UP THE MACVLAN FIRST
-> MAKE SURE TO SET UP NGINX
+5. Media Server
 
 Sets up [Prowlarr](https://prowlarr.com/), [Sonarr](https://sonarr.tv/), [Radarr](https://radarr.video/), [Readarr](https://readarr.com/), [Deluge](https://www.deluge-torrent.org/), [Jellyfin](https://jellyfin.org/), [Jellyseer](https://github.com/Fallenbagel/jellyseerr) and [Organizr](https://github.com/causefx/Organizr) with an individual IP for each service.
 
-Copy `env.example` to `.env` and change the values according to your set up, then run `sudo docker-compose up`.
+```sh
+cd media-server
+cp env.example .env # Don't forget to change the values according to your network setup
+sudo docker-compose up -d
+```
