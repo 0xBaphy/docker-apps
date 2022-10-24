@@ -5,11 +5,15 @@ networks:
     external: true
 
 services:
-  nginx:
-    container_name: nginx
+  sdr-server:
+    container_name: sdr-server
+    restart: unless-stopped
     build:
       context: "."
       dockerfile: "Dockerfile"
+    devices:
+      - /dev/dvb:/dev/dvb
+    privileged: true
     networks:
       docker-macvlan0:
-        ipv4_address: ${NGINX_IP}
+        ipv4_address: ${SDR_IP}
