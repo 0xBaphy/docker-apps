@@ -21,8 +21,8 @@ services:
         ipv4_address: ${PIHOLE_IP}
     labels:
       caddy: "pihole.local"
-      caddy.rewrite: "* /target{admin}"
-      caddy.reverse_proxy: "{{upstreams 443}}"
+      caddy.rewrite: "* /admin{uri}"
+      caddy.reverse_proxy: "{{upstreams 80}}"
     environment:
       TZ: ${TZ}
     volumes:
