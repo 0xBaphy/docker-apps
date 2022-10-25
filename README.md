@@ -22,14 +22,12 @@ docker network create -d macvlan \
     docker-macvlan0
 ```
 
-3. Nginx
+3. Caddy
 
-We use nginx as a reverse proxy, you can find the config files in the `sites-available` directory, you may need to edit them to suit your network setup.
-
-Set up nginx using the provided container.
+We use caddy as a reverse proxy because of how easy it is to configure using labels inside the `docker-compose` files
 
 ```sh
-cd nginx
+cd caddy
 cp ../env.example .env # Don't forget to change the values according to your network setup 
 sudo docker-compose up -d
 ```
@@ -75,3 +73,14 @@ cd rtl-sdr-server
 cp ../env.example .env # Don't forget to change the values according to your network setup
 sudo docker-compose up -d
 ```
+
+5. ADS-B Server
+
+Sets up [dump1090](https://github.com/flightaware/dump1090) and [ADS-B Exchange](https://github.com/sdr-enthusiasts/docker-adsbexchange)
+
+```sh
+cd ads-b-server
+cp ../env.example .env # Don't forget to change the values according to your network setup
+sudo docker-compose up -d
+```
+
