@@ -17,6 +17,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${PORTAINER_IP}
+    labels:
+      caddy: "portainer.local"
+      caddy.reverse_proxy: "{{upstreams 9000}}"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
