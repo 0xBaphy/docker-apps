@@ -18,4 +18,4 @@ services:
       - "1234:1234"
     networks:
       docker-macvlan0:
-        ipv4_address: ${SDR_IP}
+        ipv4_address: ${SDR_SERVER_IP}

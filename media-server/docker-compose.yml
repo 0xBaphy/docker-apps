@@ -14,6 +14,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${DELUGE_IP}
+    labels:
+      caddy: "deluge.local"
+      caddy.reverse_proxy: "{{upstreams 8112}}"
     environment:
       - PUID=${PUID}  # default user id, defined in .env
       - PGID=${PGID}  # default group id, defined in .env
@@ -31,6 +34,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${PROWLARR_IP}
+    labels:
+      caddy: "prowlarr.local"
+      caddy.reverse_proxy: "{{upstreams 9696}}"
     environment:
       - PUID=${PUID}  # default user id, defined in .env
       - PGID=${PGID}  # default group id, defined in .env
@@ -47,6 +53,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${SONARR_IP}
+    labels:
+      caddy: "sonarr.local"
+      caddy.reverse_proxy: "{{upstreams 8989}}"
     environment:
       - PUID=${PUID}  # default user id, defined in .env
       - PGID=${PGID}  # default group id, defined in .env
@@ -66,6 +75,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${RADARR_IP}
+    labels:
+      caddy: "radarr.local"
+      caddy.reverse_proxy: "{{upstreams 7878}}"
     environment:
       - PUID=${PUID}  # default user id, defined in .env
       - PGID=${PGID}  # default group id, defined in .env
@@ -85,6 +97,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${BAZARR_IP}
+    labels:
+      caddy: "bazarr.local"
+      caddy.reverse_proxy: "{{upstreams 6767}}"
     environment:
       - PUID=${PUID}  # default user id, defined in .env
       - PGID=${PGID}  # default group id, defined in .env
@@ -94,7 +109,7 @@ services:
       - ${ROOT}/config/bazarr:/config   # config files
       - ${ROOT}/media/movies:/movies    # movies folder
       - ${ROOT}/media/tv:/tv            # tv shows folder
-  
+
   readarr:
     container_name: readarr
     image: lscr.io/linuxserver/readarr:develop
@@ -104,6 +119,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${READARR_IP}
+    labels:
+      caddy: "readarr.local"
+      caddy.reverse_proxy: "{{upstreams 8787}}"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -125,6 +143,9 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${JELLYFIN_IP}
+    labels:
+      caddy: "jellyfin.local"
+      caddy.reverse_proxy: "{{upstreams 8096}}"
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -133,21 +154,6 @@ services:
     volumes:
       - ${ROOT}/config/jellyfin/config:/config    # jellyfin config
       - ${ROOT}/media:/data/media                 # media library
-  
-  organizr:
-    container_name: organizr
-    image: organizr/organizr
-    restart: unless-stopped
-    ports:
-      - "80:80/tcp"
-    networks:
-      docker-macvlan0:
-        ipv4_address: ${ORGANIZR_IP}
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-    volumes:
-      - ${ROOT}/config/organizr/config:/config    # organizr config
 
   jellyseerr:
     container_name: jellyseerr
@@ -158,8 +164,29 @@ services:
     networks:
       docker-macvlan0:
         ipv4_address: ${JELLYSEER_IP}
+    labels:
+      caddy: "jellyseer.local"
+      caddy.reverse_proxy: "{{upstreams 5055}}"
     environment:
       - TZ=${TZ}
       - LOG_LEVEL=${LOG_LEVEL}
     volumes:
       - ${ROOT}/config/jellyseerr:/app/config
+
+  organizr:
+    container_name: organizr
+    image: organizr/organizr
+    restart: unless-stopped
+    ports:
+      - "80:80/tcp"
+    networks:
+      docker-macvlan0:
+        ipv4_address: ${ORGANIZR_IP}
+    labels:
+      caddy: "organizr.local"
+      caddy.reverse_proxy: "{{upstreams 80}}"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+    volumes:
+      - ${ROOT}/config/organizr/config:/config    # organizr config

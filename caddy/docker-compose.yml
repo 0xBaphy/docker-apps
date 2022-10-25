@@ -1,0 +1,22 @@
+version: "3.8"
+
+networks:
+  docker-macvlan0:
+    external: true
+
+services:
+  caddy:
+    container_name: caddy
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - CADDY_INGRESS_NETWORKS=docker-macvlan0
+    networks:
+      docker-macvlan0:
+        ipv4_address: ${CADDY_IP}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${ROOT}/config/caddy:/data

@@ -30,7 +30,7 @@ Set up nginx using the provided container.
 
 ```sh
 cd nginx
-cp env.example .env # Don't forget to change the values according to your network setup 
+cp ../env.example .env # Don't forget to change the values according to your network setup 
 sudo docker-compose up -d
 ```
 
@@ -42,7 +42,7 @@ Sets up pihole using the MACVLAN network, allowing to use pihole's DHCP feature.
 
 ```sh
 cd pihole
-cp env.example .env # Don't forget to change the values according to your network setup
+cp ../env.example .env # Don't forget to change the values according to your network setup
 sudo docker-compose up -d
 ```
 
@@ -52,7 +52,7 @@ Sets up [Prowlarr](https://prowlarr.com/), [Sonarr](https://sonarr.tv/), [Radarr
 
 ```sh
 cd media-server
-cp env.example .env # Don't forget to change the values according to your network setup
+cp ../env.example .env # Don't forget to change the values according to your network setup
 sudo docker-compose up -d
 ```
 
@@ -62,7 +62,7 @@ Sets up [Portainer CE](https://portainer.io/), a great way to manage your contai
 
 ```sh
 cd portainer
-cp env.example .env # Don't forget to change the values according to your network setup
+cp ../env.example .env # Don't forget to change the values according to your network setup
 sudo docker-compose up -d
 ```
 
@@ -72,6 +72,6 @@ Sets up [rtl-sdr](http://git.osmocom.org/rtl-sdr), allowing us to use an [RTL-SD
 
 ```sh
 cd rtl-sdr-server
-cp env.example .env # Don't forget to change the values according to your network setup
+cp ../env.example .env # Don't forget to change the values according to your network setup
 sudo docker-compose up -d
 ```
